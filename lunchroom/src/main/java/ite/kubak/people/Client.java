@@ -8,6 +8,7 @@ import ite.kubak.common.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Client extends Thread{
 
@@ -49,6 +50,7 @@ public class Client extends Thread{
         System.out.println(name+" paid!");
         leave_queue(Lunchroom.cashQueues);
         take_seat(Lunchroom.tables);
+        leave(Lunchroom.tables);
         while(!finished){}
     }
 
@@ -86,18 +88,37 @@ public class Client extends Thread{
 
     public void find_seat(){}
 
-    public void take_seat(List<Table> tables){
-        List<Integer> scores = new ArrayList<>();
-        for(int i=0; i<tables.size(); i++) scores.add(tables.get(i).calculate_seat(this));
-        int best=-1;
-        int id=0;
-        for(int i=0; i<scores.size(); i++){
-            if(scores.get(i)>best) id=i;
+    public void take_seat(List<Table> tables) {
+        Random random = new Random();
+        int[] bestSeat = {-1, Integer.MIN_VALUE};
+        int bestTableIndex = -1;
+        for (int i = 0; i < tables.size(); i++) {
+            int[] seatResult = tables.get(i).calculate_seat(this);
+            if (seatResult[1] > bestSeat[1]) {
+                bestSeat = seatResult;
+                bestTableIndex = i;
+            } else if (seatResult[1] == bestSeat[1]) {
+                if (random.nextBoolean()) {
+                    bestSeat = seatResult;
+                    bestTableIndex = i;
+                }
+            }
         }
-        tables.get(id).take_seat(this,id);
+        if (bestTableIndex != -1 && bestSeat[0] != -1) tables.get(bestTableIndex).take_seat(this, bestSeat[0]);
     }
 
-    public void leave(){}
+    public void leave(List<Table> tables){
+        Random random = new Random();
+        int delay = random.nextInt(20000)+10000;
+        try {
+            Client.sleep(delay);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        for(Table table : tables){
+            table.leave_seat(this);
+        }
+    }
 
     public void setGotMeal(){
         gotMeal = true;

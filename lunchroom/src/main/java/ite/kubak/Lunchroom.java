@@ -59,7 +59,7 @@ public class Lunchroom extends Thread{
                 System.out.println();
             }
             for(int j=0; j<2; j++){
-                System.out.print(j+"");
+                tables.get(j).print_tables();
             }
         }
     }
