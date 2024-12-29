@@ -1,12 +1,9 @@
 package ite.kubak.people;
 
-import ite.kubak.Lunchroom;
-import ite.kubak.common.CashQueue;
-import ite.kubak.common.FoodQueue;
+import ite.kubak.communication.Lunchroom;
 import ite.kubak.common.Queue;
 import ite.kubak.common.Table;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

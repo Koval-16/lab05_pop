@@ -1,6 +1,6 @@
 package ite.kubak.people;
 
-import ite.kubak.Lunchroom;
+import ite.kubak.communication.Lunchroom;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ public class KitchenWorker extends Thread{
 
     @Override
     public void run(){
-        while(Lunchroom.open){
+        while(true){
             if(!Lunchroom.foodQueues.get(id).get_first_client_meal()){
                 Random random = new Random();
                 int delay = random.nextInt(5000)+5000;

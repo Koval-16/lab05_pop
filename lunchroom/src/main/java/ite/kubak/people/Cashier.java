@@ -1,6 +1,6 @@
 package ite.kubak.people;
 
-import ite.kubak.Lunchroom;
+import ite.kubak.communication.Lunchroom;
 
 import java.util.Random;
 
@@ -15,7 +15,7 @@ public class Cashier extends Thread{
     @Override
     public void run(){
         Random random = new Random();
-        while(Lunchroom.open){
+        while(true){
             if(!Lunchroom.cashQueues.get(id).get_first_client_paid()){
                 int delay = random.nextInt(5000)+5000;
                 try {

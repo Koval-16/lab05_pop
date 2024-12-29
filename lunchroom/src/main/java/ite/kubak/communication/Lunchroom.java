@@ -1,8 +1,7 @@
-package ite.kubak;
+package ite.kubak.communication;
 
 import ite.kubak.common.CashQueue;
 import ite.kubak.common.FoodQueue;
-import ite.kubak.common.Queue;
 import ite.kubak.common.Table;
 import ite.kubak.people.Cashier;
 import ite.kubak.people.Client;
@@ -24,7 +23,9 @@ public class Lunchroom extends Thread{
 
     public static boolean open = true;
 
-    public static void progress() throws InterruptedException {
+
+    @Override
+    public void run(){
         for(int i=0; i<2; i++){
             foodQueues.add(new FoodQueue(i));
             kitchenWorkers.add(new KitchenWorker(i));
@@ -37,32 +38,29 @@ public class Lunchroom extends Thread{
             cashiers.get(i).start();
         }
         Random random = new Random();
-        for(int i=0; i<100000;){
-            boolean y = random.nextBoolean();
-            if(y) {
-                spawn_client();
-            }
-            Lunchroom.sleep(1000);
-            i += 1000;
-            for(int j=0; j<2; j++){
-                System.out.print(j+" === ");
-                for(Client client : foodQueues.get(j).get_queue()){
-                    System.out.print(client.get_name()+" : ");
+        while(true){
+            if(open){
+                boolean y = random.nextBoolean();
+                if(y) {
+                    spawn_client();
                 }
-                System.out.println();
-            }
-            for(int j=0; j<4; j++){
-                System.out.print(j+" --- ");
-                for(Client client : cashQueues.get(j).get_queue()){
-                    System.out.print(client.get_name()+" : ");
+                try {
+                    Lunchroom.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                System.out.println();
             }
-            for(int j=0; j<2; j++){
-                tables.get(j).print_tables();
+            else{
+                try {
+                    Lunchroom.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
+
+
 
     private static void spawn_client(){
         Random random1 = new Random();
@@ -74,5 +72,11 @@ public class Lunchroom extends Thread{
         Client client = new Client(name.toString(),random1.nextInt(8));
         client.start();
     }
+
+    public static void switch_status(){
+        if(open) open=false;
+        else open=true;
+    }
+
 
 }

@@ -3,27 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ite.kubak</groupId>
+        <artifactId>lab05_pop</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <groupId>ite.kubak</groupId>
-    <artifactId>lab05_pop</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>lunchroom</module>
-        <module>gui</module>
-    </modules>
+    <artifactId>gui</artifactId>
 
     <dependencies>
-        <!-- Core JavaFX Modules -->
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>21</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <groupId>ite.kubak</groupId>
+            <artifactId>lunchroom</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
