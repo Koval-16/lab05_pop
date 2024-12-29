@@ -1,5 +1,6 @@
 package ite.kubak.people;
 
+import ite.kubak.common.Tables;
 import ite.kubak.communication.Lunchroom;
 import ite.kubak.common.Queue;
 import ite.kubak.common.Table;
@@ -43,7 +44,16 @@ public class Client extends Thread{
             }
         }
         leave_queue(Lunchroom.cashQueues);
+        queue_up(Lunchroom.bufors);
+        while(Lunchroom.bufors.get(0).get_first_client()!=this){
+            try {
+                Client.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         take_seat(Lunchroom.tables);
+        leave_queue(Lunchroom.bufors);
         leave(Lunchroom.tables);
         while(!finished){}
     }
@@ -59,7 +69,6 @@ public class Client extends Thread{
             shortest.add_client(this);
         }
     }
-
 
 
     public void leave_queue(List<? extends Queue> queues){
@@ -80,8 +89,13 @@ public class Client extends Thread{
         return paid;
     }
 
-    public void take_seat(List<Table> tables) {
-        Random random = new Random();
+    public void take_seat(Tables tables) {
+        try {
+            tables.choose_seat(this);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        /*Random random = new Random();
         int[] bestSeat = {-1, Integer.MIN_VALUE};
         int bestTableIndex = -1;
         for (int i = 0; i < tables.size(); i++) {
@@ -97,9 +111,10 @@ public class Client extends Thread{
             }
         }
         if (bestTableIndex != -1 && bestSeat[0] != -1) tables.get(bestTableIndex).take_seat(this, bestSeat[0]);
+    */
     }
 
-    public void leave(List<Table> tables){
+    public void leave(Tables tables){
         Random random = new Random();
         int delay = random.nextInt(20000)+10000;
         try {
@@ -107,8 +122,8 @@ public class Client extends Thread{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        for(Table table : tables){
-            table.leave_seat(this);
+        for(Table table : tables.getTables()){
+            table.leave_seat(this,tables);
         }
     }
 

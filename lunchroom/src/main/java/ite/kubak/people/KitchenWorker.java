@@ -17,7 +17,7 @@ public class KitchenWorker extends Thread{
         while(true){
             if(!Lunchroom.foodQueues.get(id).get_first_client_meal()){
                 Random random = new Random();
-                int delay = random.nextInt(5000)+5000;
+                int delay = random.nextInt(5000)+500;
                 try {
                     KitchenWorker.sleep(delay);
                     give_food(Lunchroom.foodQueues.get(id).get_queue().get(0));

@@ -1,8 +1,6 @@
 package ite.kubak.communication;
 
-import ite.kubak.common.CashQueue;
-import ite.kubak.common.FoodQueue;
-import ite.kubak.common.Table;
+import ite.kubak.common.*;
 import ite.kubak.people.Cashier;
 import ite.kubak.people.Client;
 import ite.kubak.people.KitchenWorker;
@@ -19,7 +17,10 @@ public class Lunchroom extends Thread{
     public static List<CashQueue> cashQueues = new ArrayList<>();
     public static List<Cashier> cashiers = new ArrayList<>();
 
-    public static List<Table> tables = new ArrayList<>();
+    //public static List<Table> tables = new ArrayList<>();
+    public static Tables tables = new Tables();
+
+    public static List<BuforQueue> bufors = new ArrayList<>();
 
     public static boolean open = true;
     private int seats;
@@ -37,13 +38,14 @@ public class Lunchroom extends Thread{
             foodQueues.add(new FoodQueue(i));
             kitchenWorkers.add(new KitchenWorker(i));
             kitchenWorkers.get(i).start();
-            tables.add(new Table(seats));
+            tables.getTables().add(new Table(seats));
         }
         for(int i=0; i<4; i++){
             cashQueues.add(new CashQueue(i));
             cashiers.add(new Cashier(i));
             cashiers.get(i).start();
         }
+        bufors.add(new BuforQueue(0));
         Random random = new Random();
         while(true){
             if(open){
@@ -94,7 +96,7 @@ public class Lunchroom extends Thread{
         for(int i=0; i<cashQueues.size(); i++) cashQueuesBuilder.append(cashQueues.get(i).print("Kasa",i));
 
         StringBuilder tablesBuilder = new StringBuilder();
-        for(int i=0; i<tables.size(); i++) tablesBuilder.append(tables.get(i).print_table());
+        for(int i=0; i<tables.getTables().size(); i++) tablesBuilder.append(tables.getTables().get(i).print_table());
 
         guiUpdater.update(foodQueuesBuilder.toString(), cashQueuesBuilder.toString(), tablesBuilder.toString());
     }

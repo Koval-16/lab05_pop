@@ -17,7 +17,7 @@ public class Cashier extends Thread{
         Random random = new Random();
         while(true){
             if(!Lunchroom.cashQueues.get(id).get_first_client_paid()){
-                int delay = random.nextInt(5000)+5000;
+                int delay = random.nextInt(5000)+10000;
                 try {
                     Cashier.sleep(delay);
                     get_payment(Lunchroom.cashQueues.get(id).get_queue().get(0));
@@ -25,8 +25,8 @@ public class Cashier extends Thread{
                     throw new RuntimeException(e);
                 }
             }
-            int switched = random.nextInt(20);
-            if(switched==0) Lunchroom.cashQueues.get(id).cash_switch();
+            //int switched = random.nextInt(20);
+            //if(switched==0) Lunchroom.cashQueues.get(id).cash_switch();
         }
     }
 

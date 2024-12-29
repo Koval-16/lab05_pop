@@ -63,8 +63,14 @@ public class Table {
         clients.set(index,client);
     }
 
-    public synchronized void leave_seat(Client client){
-        for(int i=0; i<clients.size(); i++) if(clients.get(i)==client) clients.set(i,null);
+    public synchronized void leave_seat(Client client, Tables tables){
+        for(int i=0; i<clients.size(); i++) if(clients.get(i)==client){
+            clients.set(i,null);
+            synchronized (tables) { // Powiadom monitor Tables
+                tables.notifyAll();
+            }
+            break;
+        }
     }
 
     public synchronized StringBuilder print_table(){
