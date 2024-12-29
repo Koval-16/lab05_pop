@@ -10,7 +10,6 @@ import ite.kubak.people.KitchenWorker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiConsumer;
 
 public class Lunchroom extends Thread{
 
@@ -23,11 +22,13 @@ public class Lunchroom extends Thread{
     public static List<Table> tables = new ArrayList<>();
 
     public static boolean open = true;
+    private int seats;
 
     private final GuiUpdater guiUpdater;
 
-    public Lunchroom(GuiUpdater guiUpdater) {
+    public Lunchroom(GuiUpdater guiUpdater, int seats) {
         this.guiUpdater = guiUpdater;
+        this.seats = seats;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Lunchroom extends Thread{
             foodQueues.add(new FoodQueue(i));
             kitchenWorkers.add(new KitchenWorker(i));
             kitchenWorkers.get(i).start();
-            tables.add(new Table(7));
+            tables.add(new Table(seats));
         }
         for(int i=0; i<4; i++){
             cashQueues.add(new CashQueue(i));
@@ -87,23 +88,13 @@ public class Lunchroom extends Thread{
 
     private void updateGUI() {
         StringBuilder foodQueuesBuilder = new StringBuilder();
-        for (int i = 0; i < foodQueues.size(); i++) {
-            foodQueuesBuilder.append("Kuchnia").append(i + 1).append(" : ");
-            for (Client client : foodQueues.get(i).get_queue()) foodQueuesBuilder.append(client.get_name()).append(" ");
-            foodQueuesBuilder.append("\n");
-        }
+        for(int i=0; i<foodQueues.size(); i++) foodQueuesBuilder.append(foodQueues.get(i).print("Kuchnia",i));
 
         StringBuilder cashQueuesBuilder = new StringBuilder();
-        for (int i = 0; i < cashQueues.size(); i++) {
-            cashQueuesBuilder.append("Kasa").append(i + 1).append(" : ");
-            for (Client client : cashQueues.get(i).get_queue()) cashQueuesBuilder.append(client.get_name()).append(" ");
-            cashQueuesBuilder.append("\n");
-        }
+        for(int i=0; i<cashQueues.size(); i++) cashQueuesBuilder.append(cashQueues.get(i).print("Kasa",i));
 
         StringBuilder tablesBuilder = new StringBuilder();
-        for(int i=0; i<tables.size(); i++){
-            tablesBuilder.append(tables.get(i).print_table());
-        }
+        for(int i=0; i<tables.size(); i++) tablesBuilder.append(tables.get(i).print_table());
 
         guiUpdater.update(foodQueuesBuilder.toString(), cashQueuesBuilder.toString(), tablesBuilder.toString());
     }

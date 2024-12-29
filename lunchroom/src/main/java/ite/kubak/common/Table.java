@@ -67,22 +67,6 @@ public class Table {
         for(int i=0; i<clients.size(); i++) if(clients.get(i)==client) clients.set(i,null);
     }
 
-    public synchronized void print_tables(){
-        System.out.print("  ");
-        for(int k=0; k<14; k+=2){
-            if(clients.get(k)!=null)System.out.print("|"+clients.get(k).get_name()+clients.get(k).getGroup()+"|");
-            else System.out.print("     ");
-        }
-        System.out.println();
-        System.out.println("#"+" ===================================");
-        System.out.print("  ");
-        for(int k=1; k<14; k+=2){
-            if(clients.get(k)!=null)System.out.print("|"+clients.get(k).get_name()+clients.get(k).getGroup()+"|");
-            else System.out.print("     ");
-        }
-        System.out.println();
-    }
-
     public synchronized StringBuilder print_table(){
         StringBuilder table = new StringBuilder();
         table.append("  ");

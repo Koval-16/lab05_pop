@@ -25,7 +25,6 @@ public class Client extends Thread{
 
     @Override
     public void run(){
-        System.out.println("client "+name+group);
         queue_up(Lunchroom.foodQueues);
         while(!gotMeal){
             try {
@@ -34,7 +33,6 @@ public class Client extends Thread{
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(name+" got his meal!");
         leave_queue(Lunchroom.foodQueues);
         queue_up(Lunchroom.cashQueues);
         while(!paid){
@@ -44,7 +42,6 @@ public class Client extends Thread{
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(name+" paid!");
         leave_queue(Lunchroom.cashQueues);
         take_seat(Lunchroom.tables);
         leave(Lunchroom.tables);
@@ -82,8 +79,6 @@ public class Client extends Thread{
     public boolean got_paid(){
         return paid;
     }
-
-    public void find_seat(){}
 
     public void take_seat(List<Table> tables) {
         Random random = new Random();

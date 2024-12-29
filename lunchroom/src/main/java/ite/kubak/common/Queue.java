@@ -39,6 +39,16 @@ public class Queue {
         return isOpen;
     }
 
+    public synchronized StringBuilder print(String string, int i){
+        StringBuilder builder = new StringBuilder();
+        builder.append(string).append(" ").append(i+1);
+        if(isOpen) builder.append(" [").append("O").append("]").append(" : ");
+        else builder.append(" [").append("X").append("]").append(" : ");
+        for(Client client : clients) builder.append(client.get_name()).append(" ");
+        builder.append("\n");
+        return builder;
+    }
+
     public int getId(){
         return id;
     }
