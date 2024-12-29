@@ -83,6 +83,24 @@ public class Table {
         System.out.println();
     }
 
+    public synchronized StringBuilder print_table(){
+        StringBuilder table = new StringBuilder();
+        table.append("  ");
+        for(int i=0; i<clients.size(); i+=2){
+            if(clients.get(i)!=null) table.append("|").append(clients.get(i).get_name()).append(clients.get(i).getGroup()).append("|");
+            else table.append("     ");
+        }
+        table.append("\n# ");
+        for(int i=0; i<(clients.size()/2); i++) table.append("=====");
+        table.append("\n  ");
+        for(int i=1; i<clients.size(); i+=2){
+            if(clients.get(i)!=null) table.append("|").append(clients.get(i).get_name()).append(clients.get(i).getGroup()).append("|");
+            else table.append("     ");
+        }
+        table.append("\n");
+        return table;
+    }
+
     public synchronized List<Client> getClients(){
         return clients;
     }

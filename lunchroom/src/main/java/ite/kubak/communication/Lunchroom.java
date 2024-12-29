@@ -10,6 +10,7 @@ import ite.kubak.people.KitchenWorker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 public class Lunchroom extends Thread{
 
@@ -23,6 +24,11 @@ public class Lunchroom extends Thread{
 
     public static boolean open = true;
 
+    private final GuiUpdater guiUpdater;
+
+    public Lunchroom(GuiUpdater guiUpdater) {
+        this.guiUpdater = guiUpdater;
+    }
 
     @Override
     public void run(){
@@ -57,6 +63,7 @@ public class Lunchroom extends Thread{
                     throw new RuntimeException(e);
                 }
             }
+            updateGUI();
         }
     }
 
@@ -76,6 +83,29 @@ public class Lunchroom extends Thread{
     public static void switch_status(){
         if(open) open=false;
         else open=true;
+    }
+
+    private void updateGUI() {
+        StringBuilder foodQueuesBuilder = new StringBuilder();
+        for (int i = 0; i < foodQueues.size(); i++) {
+            foodQueuesBuilder.append("Kuchnia").append(i + 1).append(" : ");
+            for (Client client : foodQueues.get(i).get_queue()) foodQueuesBuilder.append(client.get_name()).append(" ");
+            foodQueuesBuilder.append("\n");
+        }
+
+        StringBuilder cashQueuesBuilder = new StringBuilder();
+        for (int i = 0; i < cashQueues.size(); i++) {
+            cashQueuesBuilder.append("Kasa").append(i + 1).append(" : ");
+            for (Client client : cashQueues.get(i).get_queue()) cashQueuesBuilder.append(client.get_name()).append(" ");
+            cashQueuesBuilder.append("\n");
+        }
+
+        StringBuilder tablesBuilder = new StringBuilder();
+        for(int i=0; i<tables.size(); i++){
+            tablesBuilder.append(tables.get(i).print_table());
+        }
+
+        guiUpdater.update(foodQueuesBuilder.toString(), cashQueuesBuilder.toString(), tablesBuilder.toString());
     }
 
 
