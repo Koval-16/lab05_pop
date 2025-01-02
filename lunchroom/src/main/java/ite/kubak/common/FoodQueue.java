@@ -1,10 +1,5 @@
 package ite.kubak.common;
 
-import ite.kubak.people.Client;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class FoodQueue extends Queue{
 
     public FoodQueue(int id){

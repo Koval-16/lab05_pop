@@ -95,23 +95,6 @@ public class Client extends Thread{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        /*Random random = new Random();
-        int[] bestSeat = {-1, Integer.MIN_VALUE};
-        int bestTableIndex = -1;
-        for (int i = 0; i < tables.size(); i++) {
-            int[] seatResult = tables.get(i).calculate_seat(this);
-            if (seatResult[1] > bestSeat[1]) {
-                bestSeat = seatResult;
-                bestTableIndex = i;
-            } else if (seatResult[1] == bestSeat[1]) {
-                if (random.nextBoolean()) {
-                    bestSeat = seatResult;
-                    bestTableIndex = i;
-                }
-            }
-        }
-        if (bestTableIndex != -1 && bestSeat[0] != -1) tables.get(bestTableIndex).take_seat(this, bestSeat[0]);
-    */
     }
 
     public void leave(Tables tables){

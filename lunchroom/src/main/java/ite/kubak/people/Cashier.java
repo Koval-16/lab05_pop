@@ -15,6 +15,7 @@ public class Cashier extends Thread{
     @Override
     public void run(){
         Random random = new Random();
+        long lastUpdateTime = System.currentTimeMillis();
         while(true){
             if(!Lunchroom.cashQueues.get(id).get_first_client_paid()){
                 int delay = random.nextInt(5000)+10000;
@@ -25,8 +26,10 @@ public class Cashier extends Thread{
                     throw new RuntimeException(e);
                 }
             }
-            //int switched = random.nextInt(20);
-            //if(switched==0) Lunchroom.cashQueues.get(id).cash_switch();
+            if(System.currentTimeMillis()-lastUpdateTime>=20000){
+                if(random.nextInt(10)==0) Lunchroom.cashQueues.get(id).cash_switch();
+                lastUpdateTime = System.currentTimeMillis();
+            }
         }
     }
 

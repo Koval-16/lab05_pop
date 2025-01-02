@@ -1,10 +1,5 @@
 package ite.kubak.common;
 
-import ite.kubak.people.Client;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class CashQueue extends Queue{
 
     public CashQueue(int id){

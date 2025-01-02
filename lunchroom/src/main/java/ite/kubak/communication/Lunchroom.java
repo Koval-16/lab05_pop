@@ -17,7 +17,6 @@ public class Lunchroom extends Thread{
     public static List<CashQueue> cashQueues = new ArrayList<>();
     public static List<Cashier> cashiers = new ArrayList<>();
 
-    //public static List<Table> tables = new ArrayList<>();
     public static Tables tables = new Tables();
 
     public static List<BuforQueue> bufors = new ArrayList<>();
