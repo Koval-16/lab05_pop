@@ -28,6 +28,7 @@ public class Controller implements GuiUpdater {
                 lunchroom = new Lunchroom(this, getTableSize());
                 lunchroom.setDaemon(true);
                 lunchroom.start();
+                tableSize.setDisable(true);
                 start_button.setDisable(true);
                 switch_button.setDisable(false);
             } catch (Exception e){}
@@ -38,6 +39,8 @@ public class Controller implements GuiUpdater {
     @FXML
     public void switch_clicked() {
         Lunchroom.switch_status();
+        if(switch_button.getText().equals("ZAMKNIJ STOŁÓWKĘ")) switch_button.setText("OTWÓRZ STOŁÓWKĘ");
+        else switch_button.setText("ZAMKNIJ STOŁÓWKĘ");
     }
 
     @FXML
